@@ -1,0 +1,997 @@
+*****************************************************************
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+.global gnd! vdd! vss!
+.option search='/home/Tecnologias/IBM_8RF/kit/analog/hspice/models'
+.option INGOLD=1
+.option RUNLVL=1
+.option OPFILE=1
+.option SPLIT_DP=1
+.option MEASFORM=1
+.option CSDF=1
+.option SYMB=1
+.option RELTOL=0.01
+.option METHOD=TRAP
+.option DELMAX=10u
+.option LIST=1
+.option LIS_NEW=1
+.option POST=CSDF
+.option finesim_print_to_probe=1
+.option finesim_output=fsdb
+.temp 25
+.lib 'allModels.inc' tt
+.include 'design.inc'
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_XOR2X4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_DFFSRX4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_BUFX4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_INVX4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_OR2X4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_AND2X4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_AND3X4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_AND4X4TF.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/std_cells/ibm13rfrtv/ibm13rfrvt_neuron.sp"
+.inc "/home/users/aguirref/nn_rs_uab/models/memdiode/new_version/memdiode_HSPICE_new_C2.sp"
+
+*####################  Resistive memory array SUBCKT  ###################
+.subckt MEMD_network_2_by_4 r1_PAD_1 r2_PAD_1 c1_PAD_1 c2_PAD_1 c3_PAD_1 c4_PAD_1 
+*First layer interconnect lines with series resistance
+Rr1_PAD_1 r1_PAD_1 r1-1 R='Rs_PAD*n_extra' 
+Rr1_1_2 r1-1 r1-2 R='Rs' 
+Cr1_1_up r1-1 gnd! C='C_line2gnd' 
+Rr1_2_3 r1-2 r1-3 R='Rs' 
+Cr1_2_up r1-2 gnd! C='C_line2gnd' 
+Rr1_3_4 r1-3 r1-4 R='Rs' 
+Cr1_3_up r1-3 gnd! C='C_line2gnd' 
+Rr1_PAD_2 r1-4 r1_PAD_1 R='Rs_PAD*n_extra' 
+Rr2_PAD_1 r2_PAD_1 r2-1 R='Rs_PAD*n_extra' 
+Rr2_1_2 r2-1 r2-2 R='Rs' 
+Cr2_1_up r2-1 gnd! C='C_line2gnd' 
+Cr2_1_1 2-1 1-1 C='C_interline' 
+Rr2_2_3 r2-2 r2-3 R='Rs' 
+Cr2_2_up r2-2 gnd! C='C_line2gnd' 
+Cr2_2_2 2-2 1-2 C='C_interline' 
+Rr2_3_4 r2-3 r2-4 R='Rs' 
+Cr2_3_up r2-3 gnd! C='C_line2gnd' 
+Cr2_3_3 2-3 1-3 C='C_interline' 
+Rr2_PAD_2 r2-4 r2_PAD_1 R='Rs_PAD*n_extra' 
+*************************************************************************
+*Second layer interconnect lines with series resistance
+Rc1_PAD_1 c1_PAD_1 c1-1 R='Rs_PAD' 
+Rc1_1_2 c1-1 c1-2 R='Rs' 
+Cc1_1_low c1-1 gnd! C='C_line2gnd' 
+Rc1_PAD_2 c1-2 c1_PAD_2 R='Rs_PAD' 
+Rc1_PAD_3 c1_PAD_2 gnd! R='HZ' 
+Rc2_PAD_1 c2_PAD_1 c2-1 R='Rs_PAD' 
+Rc2_1_2 c2-1 c2-2 R='Rs' 
+Cc2_1_low c2-1 gnd! C='C_line2gnd' 
+Cc2_1_1 c2-1 c1-1 C='C_interline' 
+Rc2_PAD_2 c2-2 c2_PAD_2 R='Rs_PAD' 
+Rc2_PAD_3 c2_PAD_2 gnd! R='HZ' 
+Rc3_PAD_1 c3_PAD_1 c3-1 R='Rs_PAD' 
+Rc3_1_2 c3-1 c3-2 R='Rs' 
+Cc3_1_low c3-1 gnd! C='C_line2gnd' 
+Cc3_1_1 c3-1 c2-1 C='C_interline' 
+Rc3_PAD_2 c3-2 c3_PAD_2 R='Rs_PAD' 
+Rc3_PAD_3 c3_PAD_2 gnd! R='HZ' 
+Rc4_PAD_1 c4_PAD_1 c4-1 R='Rs_PAD' 
+Rc4_1_2 c4-1 c4-2 R='Rs' 
+Cc4_1_low c4-1 gnd! C='C_line2gnd' 
+Cc4_1_1 c4-1 c3-1 C='C_interline' 
+Rc4_PAD_2 c4-2 c4_PAD_2 R='Rs_PAD' 
+Rc4_PAD_3 c4_PAD_2 gnd! R='HZ' 
+*************************************************************************
+*Resistive memory devices connecting neurons
+Rcs_r1-1c1-1_1 r1-1 r1-1_p R='Rcs' 
+XMEMDr1-1c1-1 r1-1_p c1-1_n memdiode H0='H0_r1_c1'
+CMEMDr1-1c1-1 r1-1_p c1-1_n memdiode C='C_memdiode'
+Rcs_r1-1c1-1_2 c1-1_n c1-1 R='Rcs' 
+Rcs_r1-2c2-1_1 r1-2 r1-2_p R='Rcs' 
+XMEMDr1-2c2-1 r1-2_p c2-1_n memdiode H0='H0_r1_c2'
+CMEMDr1-2c2-1 r1-2_p c2-1_n memdiode C='C_memdiode'
+Rcs_r1-2c2-1_2 c2-1_n c2-1 R='Rcs' 
+Rcs_r1-3c3-1_1 r1-3 r1-3_p R='Rcs' 
+XMEMDr1-3c3-1 r1-3_p c3-1_n memdiode H0='H0_r1_c3'
+CMEMDr1-3c3-1 r1-3_p c3-1_n memdiode C='C_memdiode'
+Rcs_r1-3c3-1_2 c3-1_n c3-1 R='Rcs' 
+Rcs_r1-4c4-1_1 r1-4 r1-4_p R='Rcs' 
+XMEMDr1-4c4-1 r1-4_p c4-1_n memdiode H0='H0_r1_c4'
+CMEMDr1-4c4-1 r1-4_p c4-1_n memdiode C='C_memdiode'
+Rcs_r1-4c4-1_2 c4-1_n c4-1 R='Rcs' 
+Rcs_r2-1c1-2_1 r2-1 r2-1_p R='Rcs' 
+XMEMDr2-1c1-2 r2-1_p c1-2_n memdiode H0='H0_r2_c1'
+CMEMDr2-1c1-2 r2-1_p c1-2_n memdiode C='C_memdiode'
+Rcs_r2-1c1-2_2 c1-2_n c1-2 R='Rcs' 
+Rcs_r2-2c2-2_1 r2-2 r2-2_p R='Rcs' 
+XMEMDr2-2c2-2 r2-2_p c2-2_n memdiode H0='H0_r2_c2'
+CMEMDr2-2c2-2 r2-2_p c2-2_n memdiode C='C_memdiode'
+Rcs_r2-2c2-2_2 c2-2_n c2-2 R='Rcs' 
+Rcs_r2-3c3-2_1 r2-3 r2-3_p R='Rcs' 
+XMEMDr2-3c3-2 r2-3_p c3-2_n memdiode H0='H0_r2_c3'
+CMEMDr2-3c3-2 r2-3_p c3-2_n memdiode C='C_memdiode'
+Rcs_r2-3c3-2_2 c3-2_n c3-2 R='Rcs' 
+Rcs_r2-4c4-2_1 r2-4 r2-4_p R='Rcs' 
+XMEMDr2-4c4-2 r2-4_p c4-2_n memdiode H0='H0_r2_c4'
+CMEMDr2-4c4-2 r2-4_p c4-2_n memdiode C='C_memdiode'
+Rcs_r2-4c4-2_2 c4-2_n c4-2 R='Rcs' 
+*************************************************************************
+*########################################################################
+.ends MEMD_network_2_by_4
+
+*#########################  selector SUBCKT  ############################
+.subckt selector Out Vcont Write Neuron
+gi1 Out Write vcr pwl(1) Vcont gnd! 0.1,100Meg 0.9,0.1
+gi2 Neuron Out vcr pwl(1) Vcontn gnd! 0.1,100Meg 0.9,0.1
+Xinv2 Vcont Vcontn invx4tf
+*########################################################################
+.ends selector
+
+*#########################  selector SUBCKT  ############################
+.subckt and1x4tf input_1 output
+xbufx4tf input_1 output bufx4tf
+*########################################################################
+.ends and1x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and5x4tf input_1 input_2 input_3 input_4 input_5 output 
+xand3x4tf_1 input_1 input_2 input_3 output_1 and3x4tf
+xand2x4tf_2 input_4 input_5 output_2 and2x4tf
+
+xand2x4tf_1 output_1 output_2 output and2x4tf
+
+*########################################################################
+.ends and5x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and6x4tf input_1 input_2 input_3 input_4 input_5 input_6 output 
+xand3x4tf_1 input_1 input_2 input_3 output_1 and3x4tf
+xand3x4tf_2 input_4 input_5 input_6 output_2 and3x4tf
+
+xand2x4tf_1 output_1 output_2 output and2x4tf
+
+*########################################################################
+.ends and6x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and7x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand3x4tf_2 input_5 input_6 input_7 output_2 and3x4tf
+
+xand2x4tf_1 output_1 output_2 output and2x4tf
+
+*########################################################################
+.ends and7x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and8x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand2x4tf_1 output_1 output_2 output and2x4tf
+
+*########################################################################
+.ends and8x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and12x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+
+xand3x4tf_1 output_1 output_2 output_3 output and3x4tf
+
+*########################################################################
+.ends and8x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and15x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 input_13 input_14 input_15 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+xand3x4tf_4 input_13 input_14 input_15  output_4 and3x4tf
+
+xand4x4tf_5 output_1 output_2 output_3 output_4 output and4x4tf
+
+*########################################################################
+.ends and15x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and16x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 input_13 input_14 input_15 input_16 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+xand4x4tf_4 input_13 input_14 input_15 input_16 output_4 and4x4tf
+
+xand4x4tf_5 output_1 output_2 output_3 output_4 output and4x4tf
+
+*########################################################################
+.ends and16x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and18x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 input_13 input_14 input_15 input_16 input_17 input_18 output 
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+xand4x4tf_4 input_13 input_14 input_15 input_16 output_4 and4x4tf
+
+xand2x4tf_5 input_17 input_18 output_5 and2x4tf
+
+xand3x4tf_6 output_1 output_2 output_3 output_A and3x4tf
+
+xand2x4tf_7 output_4 output_5 output_B and2x4tf
+
+xand2x4tf_8 output_A output_B output and2x4tf
+
+*########################################################################
+.ends and18x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and28x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 input_13 input_14 input_15 input_16 input_17 input_18 input_19 input_20 input_21 input_22 input_23 input_24 input_25 input_26 input_27 input_28 output
+
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+xand4x4tf_4 input_13 input_14 input_15 input_16 output_4 and4x4tf
+xand4x4tf_5 input_17 input_18 input_19 input_20 output_5 and4x4tf
+xand4x4tf_6 input_21 input_22 input_23 input_24 output_6 and4x4tf
+xand4x4tf_7 input_25 input_26 input_27 input_28 output_7 and4x4tf
+xand4x4tf_9 output_1 output_2 output_3 output_4 output_A and4x4tf
+xand3x4tf_10 output_5 output_6 output_7 output_B and3x4tf
+
+xand2x4tf_10 output_A output_B output and2x4tf
+
+*########################################################################
+.ends and28x4tf
+
+*#########################  selector SUBCKT  ############################
+.subckt and32x4tf input_1 input_2 input_3 input_4 input_5 input_6 input_7 input_8 input_9 input_10 input_11 input_12 input_13 input_14 input_15 input_16 input_17 input_18 input_19 input_20 input_21 input_22 input_23 input_24 input_25 input_26 input_27 input_28 input_29 input_30 input_31 input_32 output
+
+xand4x4tf_1 input_1 input_2 input_3 input_4 output_1 and4x4tf
+xand4x4tf_2 input_5 input_6 input_7 input_8 output_2 and4x4tf
+
+xand4x4tf_3 input_9 input_10 input_11 input_12 output_3 and4x4tf
+xand4x4tf_4 input_13 input_14 input_15 input_16 output_4 and4x4tf
+xand4x4tf_5 input_17 input_18 input_19 input_20 output_5 and4x4tf
+xand4x4tf_6 input_21 input_22 input_23 input_24 output_6 and4x4tf
+xand4x4tf_7 input_25 input_26 input_27 input_28 output_7 and4x4tf
+xand4x4tf_8 input_29 input_30 input_31 input_32 output_8 and4x4tf
+
+xand4x4tf_9 output_1 output_2 output_3 output_4 output_A and4x4tf
+xand4x4tf_10 output_5 output_6 output_7 output_8 output_B and4x4tf
+
+xand2x4tf_10 output_A output_B output and2x4tf
+
+*########################################################################
+.ends and32x4tf
+
+*#########################  Decoder 2-bits SUBCKT  ############################
+.subckt decoder_2_output output_1 output_2 clk PRE_1 clear
+Xdff1 clk output_2 output_1 RQn1 clearn PRE_1n dffsrx4tf
+RQn1 RQn1 gnd! R=1Meg
+Xdff2 clk output_1 output_2 RQn2 clearn vdd! dffsrx4tf
+RQn2 RQn2 gnd! R=1Meg
+Xinv1 PRE_1 PRE_1n invx4tf
+Xinv2 clear clearn invx4tf
+*########################################################################
+.ends decoder_2_output
+
+*#########################  Decoder 4-bits SUBCKT  ############################
+.subckt decoder_4_output output_1 output_2 output_3 output_4 clk PRE_1 clear
+Xdff1 clk output_4 output_1 RQn1 clearn PRE_1n dffsrx4tf
+RQn1 RQn1 gnd! R=1Meg
+Xdff2 clk output_1 output_2 RQn2 clearn vdd! dffsrx4tf
+RQn2 RQn2 gnd! R=1Meg
+Xdff3 clk output_2 output_3 RQn3 clearn vdd! dffsrx4tf
+RQn3 RQn3 gnd! R=1Meg
+Xdff4 clk output_3 output_4 RQn4 clearn vdd! dffsrx4tf
+RQn4 RQn4 gnd! R=1Meg
+Xinv1 PRE_1 PRE_1n invx4tf
+Xinv2 clear clearn invx4tf
+*########################################################################
+.ends decoder_4_output
+
+*#########################  Counter 2-bit SUBCKT   ############################
+.subckt counter_2_pulses clk counter_pulse_out clear
+Xdff1 clk input output_1 RQn1 clearn vdd! dffsrx4tf
+RQn1 RQn1 gnd! R=1Meg
+Xdff2 clk output_1 output_2 RQn2 clearn vdd! dffsrx4tf
+RQn2 RQn2 gnd! R=1Meg
+Xxbuf1 output_2 counter_pulse_out bufx4tf
+Xinv1 clear clearn invx4tf
+X_set clk gnd! inputDFF inputDFF_n vdd! clearn dffsrx4tf
+X_or_set inputDFF output_2 input or2x4tf
+*########################################################################
+.ends counter_2_pulses
+
+*#########################  Counter 4-bit SUBCKT   ############################
+.subckt counter_4_pulses clk counter_pulse_out clear
+Xdff1 clk input output_1 RQn1 clearn vdd! dffsrx4tf
+RQn1 RQn1 gnd! R=1Meg
+Xdff2 clk output_1 output_2 RQn2 clearn vdd! dffsrx4tf
+RQn2 RQn2 gnd! R=1Meg
+Xdff3 clk output_2 output_3 RQn3 clearn vdd! dffsrx4tf
+RQn3 RQn3 gnd! R=1Meg
+Xdff4 clk output_3 output_4 RQn4 clearn vdd! dffsrx4tf
+RQn4 RQn4 gnd! R=1Meg
+Xxbuf1 output_4 counter_pulse_out bufx4tf
+Xinv1 clear clearn invx4tf
+X_set clk gnd! inputDFF inputDFF_n vdd! clearn dffsrx4tf
+X_or_set inputDFF output_4 input or2x4tf
+*########################################################################
+.ends counter_4_pulses
+
+*#########################  1-input neuron SUBCKT   ############################
+.subckt neuron_1x2_in in1_pos in1_neg neuron_output ref_node
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='(v(in1_pos)-v(in1_neg))*100000'
+*########################################################################
+.ends neuron_1x2_in
+
+*#########################  2-input neuron SUBCKT   ############################
+.subckt neuron_2x2_in in1_pos in2_pos in1_neg in2_neg neuron_output ref_node
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_2_pos in2_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Rsense_2_neg in2_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='(v(in1_pos)+v(in2_pos)-v(in1_neg)-v(in2_neg))*100000'
+*########################################################################
+.ends neuron_2x2_in
+
+*#########################  1-input logsig neuron SUBCKT   ############################
+.subckt logsig_neuron_1x2_in in1_pos in1_neg neuron_output ref_node
+
+.param logsig(x)='1/(1+exp(-x))'
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='0.300000*logsig((v(in1_pos)-v(in1_neg))*100000)' min=0 max=0.300000
+*########################################################################
+.ends logsig_neuron_1x2_in
+
+*#########################  2-input logsig neuron SUBCKT   ############################
+.subckt logsig_neuron_2x2_in in1_pos in2_pos in1_neg in2_neg neuron_output ref_node
+
+.param logsig(x)='1/(1+exp(-x))'
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_2_pos in2_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Rsense_2_neg in2_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='0.300000*logsig((v(in1_pos)+v(in2_pos)-v(in1_neg)-v(in2_neg))*100000)' min=0 max=0.300000
+*########################################################################
+.ends logsig_neuron_2x2_in
+
+*#########################  1-input tansig neuron SUBCKT   ############################
+.subckt tansig_neuron_1x2_in in1_pos in1_neg neuron_output ref_node
+
+.param tansig(x)='2/(1+exp(-2*x))-1'
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='0.150000*tansig((v(in1_pos)-v(in1_neg))*100000)' min=-0.150000 max=0.150000
+*########################################################################
+.ends tansig_neuron_1x2_in
+
+*#########################  2-input tansig neuron SUBCKT   ############################
+.subckt tansig_neuron_2x2_in in1_pos in2_pos in1_neg in2_neg neuron_output ref_node
+
+.param tansig(x)='2/(1+exp(-2*x))-1'
+
+Rsense_1_pos in1_pos ref_node R='R_in_TIA'
+
+Rsense_2_pos in2_pos ref_node R='R_in_TIA'
+
+Rsense_1_neg in1_neg ref_node R='R_in_TIA'
+
+Rsense_2_neg in2_neg ref_node R='R_in_TIA'
+
+Eoutput neuron_output ref_node vol='0.150000*tansig((v(in1_pos)+v(in2_pos)-v(in1_neg)-v(in2_neg))*100000)' min=-0.150000 max=0.150000
+*########################################################################
+.ends tansig_neuron_2x2_in
+
+*#########################   1 layer synchronizer SUBCKT  ############################
+.subckt sync_W_OK_1_layers WOK_layer_1 output clk PRE_1 clear
+
+Xdff1 clk_en gnd! output_1 RQn1 clearn WOK_layer_1n dffsrx4tf
+Xinv1 WOK_layer_1 WOK_layer_1n invx4tf
+RQn1 RQn1 gnd! R=1Meg
+
+Xinv_clear clear clearn invx4tf
+
+Xand1 output_1 output and1x4tf
+Xdff_gral clk output clk_en clk_en_n clearn vdd! dffsrx4tf
+*########################################################################
+.ends sync_W_OK_1_layers
+
+*========================================================================================================================================================
+*##############################################################  TOP CIRCUIT  ###########################################################################
+
+*======================================================================================================================================
+*Layers A-B, including interconections (CPA), input and output neurons and programming electronic****************************************************************************************************************************************
+*#######################################################################################################################################
+
+*========================================================================
+*Layers (A-B) interconnections (CPA): Partition 1-1, pos polarity
+*************************************************************************
+XMEMD_network_A-B_P1-1_pos AB1_PAD_1_P1-1_pos AB2_PAD_1_P1-1_pos BA1_PAD_1_P1-1_pos BA2_PAD_1_P1-1_pos BA3_PAD_1_P1-1_pos BA4_PAD_1_P1-1_pos MEMD_network_2_by_4 H0_r1_c1=0.443228 H0_r1_c2=0.443228 H0_r1_c3=0.443228 H0_r1_c4=0.443228 H0_r2_c1=0.443228 H0_r2_c2=0.443228 H0_r2_c3=0.443228 H0_r2_c4=0.443228 
+
+*========================================================================
+*Drivers for the input neurons of intercon. layer A-B (Neural layer A, CPA: 1-1-pos)
+*************************************************************************
+Xselector_RW_AB1-1-P1-1_pos AB1_PAD_1_P1-1_pos RW_A-B write_signal_AB1_1_P1-1_pos NeuronA1_P1-1 selector
+Xselector_RW_AB1-2-P1-1_pos write_signal_AB1_1_P1-1_pos VcontAB1-1_out_P1-1_pos Vpulsedsignal RHZ_AB1_P1-1_pos selector
+VHZ_AB1_P1-1_pos RHZ_AB1_P1-1_pos gnd! dc=0.000000
+XandAB1_P1-1_pos VcontA-B1-1 enable_write_A-B_P1-1_pos VcontAB1-1_out_P1-1_pos and2x4tf
+VNeuronA1_P1 NeuronA1_P1-1 gnd! PWL(0 0 1.000000000000e-06 0 1.001000000000e-06 0.300000 1.100100000000e-05 0.300000 1.100200000000e-05 0.000000 2.100200000000e-05 0.000000 2.100300000000e-05 0.000000 3.100300000000e-05 0.000000 3.100400000000e-05 0.000000 4.100400000000e-05 0.000000 4.100500000000e-05 0.000000 5.200420000000e-05 0.000000)
+*************************************************************************
+Xselector_RW_AB2-1-P1-1_pos AB2_PAD_1_P1-1_pos RW_A-B write_signal_AB2_1_P1-1_pos NeuronA2_P1-1 selector
+Xselector_RW_AB2-2-P1-1_pos write_signal_AB2_1_P1-1_pos VcontAB2-1_out_P1-1_pos Vpulsedsignal RHZ_AB2_P1-1_pos selector
+VHZ_AB2_P1-1_pos RHZ_AB2_P1-1_pos gnd! dc=0.000000
+XandAB2_P1-1_pos VcontA-B2-1 enable_write_A-B_P1-1_pos VcontAB2-1_out_P1-1_pos and2x4tf
+VNeuronA2_P1 NeuronA2_P1-1 gnd! PWL(0 0 1.000000000000e-06 0 1.001000000000e-06 0.000000 1.100100000000e-05 0.000000 1.100200000000e-05 0.300000 2.100200000000e-05 0.300000 2.100300000000e-05 0.000000 3.100300000000e-05 0.000000 3.100400000000e-05 0.000000 4.100400000000e-05 0.000000 4.100500000000e-05 0.000000 5.200420000000e-05 0.000000)
+*************************************************************************
+
+*========================================================================
+*Drivers for the output neurons of intercon. layer A-B (Neural layer B, CPA: 1-1-pos)
+*************************************************************************
+Xselector_RW_BA1-1-P1-1_pos BA1_PAD_1_P1-1_pos RW_A-B write_signal_BA1_1_P1-1_pos NeuronB1_P1-1-pos selector
+Xselector_RW_BA1-2-P1-1_pos write_signal_BA1_1_P1-1_pos VcontBA1-1_out_P1-1_pos comparator_A-B_P1-1_pos RHZ_BA1_P1-1_pos selector
+VHZ_BA1_P1-1_pos RHZ_BA1_P1-1_pos gnd! dc=0.650000
+XandBA1_P1-1_pos VcontB-A1-1 enable_write_A-B_P1-1_pos VcontBA1-1_out_P1-1_pos and2x4tf
+RNeuronB1_P1-1_pos NeuronB1_P1-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA2-1-P1-1_pos BA2_PAD_1_P1-1_pos RW_A-B write_signal_BA2_1_P1-1_pos NeuronB2_P1-1-pos selector
+Xselector_RW_BA2-2-P1-1_pos write_signal_BA2_1_P1-1_pos VcontBA2-1_out_P1-1_pos comparator_A-B_P1-1_pos RHZ_BA2_P1-1_pos selector
+VHZ_BA2_P1-1_pos RHZ_BA2_P1-1_pos gnd! dc=0.650000
+XandBA2_P1-1_pos VcontB-A2-1 enable_write_A-B_P1-1_pos VcontBA2-1_out_P1-1_pos and2x4tf
+RNeuronB2_P1-1_pos NeuronB2_P1-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA3-1-P1-1_pos BA3_PAD_1_P1-1_pos RW_A-B write_signal_BA3_1_P1-1_pos NeuronB3_P1-1-pos selector
+Xselector_RW_BA3-2-P1-1_pos write_signal_BA3_1_P1-1_pos VcontBA3-1_out_P1-1_pos comparator_A-B_P1-1_pos RHZ_BA3_P1-1_pos selector
+VHZ_BA3_P1-1_pos RHZ_BA3_P1-1_pos gnd! dc=0.650000
+XandBA3_P1-1_pos VcontB-A3-1 enable_write_A-B_P1-1_pos VcontBA3-1_out_P1-1_pos and2x4tf
+RNeuronB3_P1-1_pos NeuronB3_P1-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA4-1-P1-1_pos BA4_PAD_1_P1-1_pos RW_A-B write_signal_BA4_1_P1-1_pos NeuronB4_P1-1-pos selector
+Xselector_RW_BA4-2-P1-1_pos write_signal_BA4_1_P1-1_pos VcontBA4-1_out_P1-1_pos comparator_A-B_P1-1_pos RHZ_BA4_P1-1_pos selector
+VHZ_BA4_P1-1_pos RHZ_BA4_P1-1_pos gnd! dc=0.650000
+XandBA4_P1-1_pos VcontB-A4-1 enable_write_A-B_P1-1_pos VcontBA4-1_out_P1-1_pos and2x4tf
+RNeuronB4_P1-1_pos NeuronB4_P1-1-pos gnd! R='R_sense'
+*************************************************************************
+
+*========================================================================
+*Events (write) detection circuit for CPA A-B partition array 1-1, group pos 
+*************************************************************************
+E1_A-B_P1-1_pos event_in_A-B_P1-1_pos! gnd! vol='((V(comparator_A-B_P1-1_pos-1)-0)*2e6)' min=0 max=1.2
+gi_A-B_P1-1_pos comparator_A-B_P1-1_pos comparator_A-B_P1-1_pos-1 vcr pwl(1) enable_read_pulse gnd! 0.1,100Meg 0.9,1
+Raux_B-A_P1-1_pos comparator_A-B_P1-1_pos-1 gnd! R=10k
+Rshunt_B-A_P1-1_pos comparator_A-B_P1-1_pos gnd! R='R_shunt'
+
+Xbuf_event_A-B_P1-1_pos event_in_A-B_P1-1_pos! event_in_m_A-B_P1-1_pos! bufx4tf
+Xinv_event_A-B_P1-1_pos event_in_m_A-B_P1-1_pos! event_out_A-B_P1-1_pos! invx4tf
+XinvReset resetDFFs sr_rw_sync invx4tf
+Xevent_det_A-B_P1-1_pos clk_event_A-B gnd! EVENT_A-B_P1-1_pos! EVENTn_A-B_P1-1_pos! sr_rw_sync event_out_A-B_P1-1_pos! dffsrx4tf
+Xbuf_enable_write_A-B_P1-1_pos EVENTn_A-B_P1-1_pos! enable_write_A-B_P1-1_pos bufx4tf
+*************************************************************************
+*========================================================================
+*Layers (A-B) interconnections (CPA): Partition 2-1, pos polarity
+*************************************************************************
+XMEMD_network_A-B_P2-1_pos AB1_PAD_1_P2-1_pos AB2_PAD_1_P2-1_pos BA1_PAD_1_P2-1_pos BA2_PAD_1_P2-1_pos BA3_PAD_1_P2-1_pos BA4_PAD_1_P2-1_pos MEMD_network_2_by_4 H0_r1_c1=0.443228 H0_r1_c2=0.443228 H0_r1_c3=0.443228 H0_r1_c4=0.443228 H0_r2_c1=0.443228 H0_r2_c2=0.443228 H0_r2_c3=0.443228 H0_r2_c4=0.443228 
+
+*========================================================================
+*Drivers for the input neurons of intercon. layer A-B (Neural layer A, CPA: 2-1-pos)
+*************************************************************************
+Xselector_RW_AB1-1-P2-1_pos AB1_PAD_1_P2-1_pos RW_A-B write_signal_AB1_1_P2-1_pos NeuronA1_P2-1 selector
+Xselector_RW_AB1-2-P2-1_pos write_signal_AB1_1_P2-1_pos VcontAB1-1_out_P2-1_pos Vpulsedsignal RHZ_AB1_P2-1_pos selector
+VHZ_AB1_P2-1_pos RHZ_AB1_P2-1_pos gnd! dc=0.000000
+XandAB1_P2-1_pos VcontA-B1-1 enable_write_A-B_P2-1_pos VcontAB1-1_out_P2-1_pos and2x4tf
+VNeuronA1_P2 NeuronA1_P2-1 gnd! PWL(0 0 1.000000000000e-06 0 1.001000000000e-06 0.000000 1.100100000000e-05 0.000000 1.100200000000e-05 0.000000 2.100200000000e-05 0.000000 2.100300000000e-05 0.300000 3.100300000000e-05 0.300000 3.100400000000e-05 0.000000 4.100400000000e-05 0.000000 4.100500000000e-05 0.000000 5.200420000000e-05 0.000000)
+*************************************************************************
+Xselector_RW_AB2-1-P2-1_pos AB2_PAD_1_P2-1_pos RW_A-B write_signal_AB2_1_P2-1_pos NeuronA2_P2-1 selector
+Xselector_RW_AB2-2-P2-1_pos write_signal_AB2_1_P2-1_pos VcontAB2-1_out_P2-1_pos Vpulsedsignal RHZ_AB2_P2-1_pos selector
+VHZ_AB2_P2-1_pos RHZ_AB2_P2-1_pos gnd! dc=0.000000
+XandAB2_P2-1_pos VcontA-B2-1 enable_write_A-B_P2-1_pos VcontAB2-1_out_P2-1_pos and2x4tf
+VNeuronA2_P2 NeuronA2_P2-1 gnd! PWL(0 0 1.000000000000e-06 0 1.001000000000e-06 0.000000 1.100100000000e-05 0.000000 1.100200000000e-05 0.000000 2.100200000000e-05 0.000000 2.100300000000e-05 0.000000 3.100300000000e-05 0.000000 3.100400000000e-05 0.300000 4.100400000000e-05 0.300000 4.100500000000e-05 0.300000 5.200420000000e-05 0.300000)
+*************************************************************************
+
+*========================================================================
+*Drivers for the output neurons of intercon. layer A-B (Neural layer B, CPA: 2-1-pos)
+*************************************************************************
+Xselector_RW_BA1-1-P2-1_pos BA1_PAD_1_P2-1_pos RW_A-B write_signal_BA1_1_P2-1_pos NeuronB1_P2-1-pos selector
+Xselector_RW_BA1-2-P2-1_pos write_signal_BA1_1_P2-1_pos VcontBA1-1_out_P2-1_pos comparator_A-B_P2-1_pos RHZ_BA1_P2-1_pos selector
+VHZ_BA1_P2-1_pos RHZ_BA1_P2-1_pos gnd! dc=0.650000
+XandBA1_P2-1_pos VcontB-A1-1 enable_write_A-B_P2-1_pos VcontBA1-1_out_P2-1_pos and2x4tf
+RNeuronB1_P2-1_pos NeuronB1_P2-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA2-1-P2-1_pos BA2_PAD_1_P2-1_pos RW_A-B write_signal_BA2_1_P2-1_pos NeuronB2_P2-1-pos selector
+Xselector_RW_BA2-2-P2-1_pos write_signal_BA2_1_P2-1_pos VcontBA2-1_out_P2-1_pos comparator_A-B_P2-1_pos RHZ_BA2_P2-1_pos selector
+VHZ_BA2_P2-1_pos RHZ_BA2_P2-1_pos gnd! dc=0.650000
+XandBA2_P2-1_pos VcontB-A2-1 enable_write_A-B_P2-1_pos VcontBA2-1_out_P2-1_pos and2x4tf
+RNeuronB2_P2-1_pos NeuronB2_P2-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA3-1-P2-1_pos BA3_PAD_1_P2-1_pos RW_A-B write_signal_BA3_1_P2-1_pos NeuronB3_P2-1-pos selector
+Xselector_RW_BA3-2-P2-1_pos write_signal_BA3_1_P2-1_pos VcontBA3-1_out_P2-1_pos comparator_A-B_P2-1_pos RHZ_BA3_P2-1_pos selector
+VHZ_BA3_P2-1_pos RHZ_BA3_P2-1_pos gnd! dc=0.650000
+XandBA3_P2-1_pos VcontB-A3-1 enable_write_A-B_P2-1_pos VcontBA3-1_out_P2-1_pos and2x4tf
+RNeuronB3_P2-1_pos NeuronB3_P2-1-pos gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA4-1-P2-1_pos BA4_PAD_1_P2-1_pos RW_A-B write_signal_BA4_1_P2-1_pos NeuronB4_P2-1-pos selector
+Xselector_RW_BA4-2-P2-1_pos write_signal_BA4_1_P2-1_pos VcontBA4-1_out_P2-1_pos comparator_A-B_P2-1_pos RHZ_BA4_P2-1_pos selector
+VHZ_BA4_P2-1_pos RHZ_BA4_P2-1_pos gnd! dc=0.650000
+XandBA4_P2-1_pos VcontB-A4-1 enable_write_A-B_P2-1_pos VcontBA4-1_out_P2-1_pos and2x4tf
+RNeuronB4_P2-1_pos NeuronB4_P2-1-pos gnd! R='R_sense'
+*************************************************************************
+
+*========================================================================
+*Events (write) detection circuit for CPA A-B partition array 2-1, group pos 
+*************************************************************************
+E1_A-B_P2-1_pos event_in_A-B_P2-1_pos! gnd! vol='((V(comparator_A-B_P2-1_pos-1)-0)*2e6)' min=0 max=1.2
+gi_A-B_P2-1_pos comparator_A-B_P2-1_pos comparator_A-B_P2-1_pos-1 vcr pwl(1) enable_read_pulse gnd! 0.1,100Meg 0.9,1
+Raux_B-A_P2-1_pos comparator_A-B_P2-1_pos-1 gnd! R=10k
+Rshunt_B-A_P2-1_pos comparator_A-B_P2-1_pos gnd! R='R_shunt'
+
+Xbuf_event_A-B_P2-1_pos event_in_A-B_P2-1_pos! event_in_m_A-B_P2-1_pos! bufx4tf
+Xinv_event_A-B_P2-1_pos event_in_m_A-B_P2-1_pos! event_out_A-B_P2-1_pos! invx4tf
+Xevent_det_A-B_P2-1_pos clk_event_A-B gnd! EVENT_A-B_P2-1_pos! EVENTn_A-B_P2-1_pos! sr_rw_sync event_out_A-B_P2-1_pos! dffsrx4tf
+Xbuf_enable_write_A-B_P2-1_pos EVENTn_A-B_P2-1_pos! enable_write_A-B_P2-1_pos bufx4tf
+*************************************************************************
+*========================================================================
+*Layers (A-B) interconnections (CPA): Partition 1-1, neg polarity
+*************************************************************************
+XMEMD_network_A-B_P1-1_neg AB1_PAD_1_P1-1_neg AB2_PAD_1_P1-1_neg BA1_PAD_1_P1-1_neg BA2_PAD_1_P1-1_neg BA3_PAD_1_P1-1_neg BA4_PAD_1_P1-1_neg MEMD_network_2_by_4 H0_r1_c1=0.003252 H0_r1_c2=0.003252 H0_r1_c3=0.003252 H0_r1_c4=0.003252 H0_r2_c1=0.003252 H0_r2_c2=0.003252 H0_r2_c3=0.003252 H0_r2_c4=0.003252 
+
+*========================================================================
+*Drivers for the input neurons of intercon. layer A-B (Neural layer A, CPA: 1-1-neg)
+*************************************************************************
+Xselector_RW_AB1-1-P1-1_neg AB1_PAD_1_P1-1_neg RW_A-B write_signal_AB1_1_P1-1_neg NeuronA1_P1-1 selector
+Xselector_RW_AB1-2-P1-1_neg write_signal_AB1_1_P1-1_neg VcontAB1-1_out_P1-1_neg Vpulsedsignal RHZ_AB1_P1-1_neg selector
+VHZ_AB1_P1-1_neg RHZ_AB1_P1-1_neg gnd! dc=0.000000
+XandAB1_P1-1_neg VcontA-B1-1 enable_write_A-B_P1-1_neg VcontAB1-1_out_P1-1_neg and2x4tf
+*************************************************************************
+Xselector_RW_AB2-1-P1-1_neg AB2_PAD_1_P1-1_neg RW_A-B write_signal_AB2_1_P1-1_neg NeuronA2_P1-1 selector
+Xselector_RW_AB2-2-P1-1_neg write_signal_AB2_1_P1-1_neg VcontAB2-1_out_P1-1_neg Vpulsedsignal RHZ_AB2_P1-1_neg selector
+VHZ_AB2_P1-1_neg RHZ_AB2_P1-1_neg gnd! dc=0.000000
+XandAB2_P1-1_neg VcontA-B2-1 enable_write_A-B_P1-1_neg VcontAB2-1_out_P1-1_neg and2x4tf
+*************************************************************************
+
+*========================================================================
+*Drivers for the output neurons of intercon. layer A-B (Neural layer B, CPA: 1-1-neg)
+*************************************************************************
+Xselector_RW_BA1-1-P1-1_neg BA1_PAD_1_P1-1_neg RW_A-B write_signal_BA1_1_P1-1_neg NeuronB1_P1-1-neg selector
+Xselector_RW_BA1-2-P1-1_neg write_signal_BA1_1_P1-1_neg VcontBA1-1_out_P1-1_neg comparator_A-B_P1-1_neg RHZ_BA1_P1-1_neg selector
+VHZ_BA1_P1-1_neg RHZ_BA1_P1-1_neg gnd! dc=0.650000
+XandBA1_P1-1_neg VcontB-A1-1 enable_write_A-B_P1-1_neg VcontBA1-1_out_P1-1_neg and2x4tf
+RNeuronB1_P1-1_neg NeuronB1_P1-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA2-1-P1-1_neg BA2_PAD_1_P1-1_neg RW_A-B write_signal_BA2_1_P1-1_neg NeuronB2_P1-1-neg selector
+Xselector_RW_BA2-2-P1-1_neg write_signal_BA2_1_P1-1_neg VcontBA2-1_out_P1-1_neg comparator_A-B_P1-1_neg RHZ_BA2_P1-1_neg selector
+VHZ_BA2_P1-1_neg RHZ_BA2_P1-1_neg gnd! dc=0.650000
+XandBA2_P1-1_neg VcontB-A2-1 enable_write_A-B_P1-1_neg VcontBA2-1_out_P1-1_neg and2x4tf
+RNeuronB2_P1-1_neg NeuronB2_P1-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA3-1-P1-1_neg BA3_PAD_1_P1-1_neg RW_A-B write_signal_BA3_1_P1-1_neg NeuronB3_P1-1-neg selector
+Xselector_RW_BA3-2-P1-1_neg write_signal_BA3_1_P1-1_neg VcontBA3-1_out_P1-1_neg comparator_A-B_P1-1_neg RHZ_BA3_P1-1_neg selector
+VHZ_BA3_P1-1_neg RHZ_BA3_P1-1_neg gnd! dc=0.650000
+XandBA3_P1-1_neg VcontB-A3-1 enable_write_A-B_P1-1_neg VcontBA3-1_out_P1-1_neg and2x4tf
+RNeuronB3_P1-1_neg NeuronB3_P1-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA4-1-P1-1_neg BA4_PAD_1_P1-1_neg RW_A-B write_signal_BA4_1_P1-1_neg NeuronB4_P1-1-neg selector
+Xselector_RW_BA4-2-P1-1_neg write_signal_BA4_1_P1-1_neg VcontBA4-1_out_P1-1_neg comparator_A-B_P1-1_neg RHZ_BA4_P1-1_neg selector
+VHZ_BA4_P1-1_neg RHZ_BA4_P1-1_neg gnd! dc=0.650000
+XandBA4_P1-1_neg VcontB-A4-1 enable_write_A-B_P1-1_neg VcontBA4-1_out_P1-1_neg and2x4tf
+RNeuronB4_P1-1_neg NeuronB4_P1-1-neg gnd! R='R_sense'
+*************************************************************************
+
+*========================================================================
+*Events (write) detection circuit for CPA A-B partition array 1-1, group neg 
+*************************************************************************
+E1_A-B_P1-1_neg event_in_A-B_P1-1_neg! gnd! vol='((V(comparator_A-B_P1-1_neg-1)-0)*2e6)' min=0 max=1.2
+gi_A-B_P1-1_neg comparator_A-B_P1-1_neg comparator_A-B_P1-1_neg-1 vcr pwl(1) enable_read_pulse gnd! 0.1,100Meg 0.9,1
+Raux_B-A_P1-1_neg comparator_A-B_P1-1_neg-1 gnd! R=10k
+Rshunt_B-A_P1-1_neg comparator_A-B_P1-1_neg gnd! R='R_shunt'
+
+Xbuf_event_A-B_P1-1_neg event_in_A-B_P1-1_neg! event_in_m_A-B_P1-1_neg! bufx4tf
+Xinv_event_A-B_P1-1_neg event_in_m_A-B_P1-1_neg! event_out_A-B_P1-1_neg! invx4tf
+Xevent_det_A-B_P1-1_neg clk_event_A-B gnd! EVENT_A-B_P1-1_neg! EVENTn_A-B_P1-1_neg! sr_rw_sync event_out_A-B_P1-1_neg! dffsrx4tf
+Xbuf_enable_write_A-B_P1-1_neg EVENTn_A-B_P1-1_neg! enable_write_A-B_P1-1_neg bufx4tf
+*************************************************************************
+*========================================================================
+*Layers (A-B) interconnections (CPA): Partition 2-1, neg polarity
+*************************************************************************
+XMEMD_network_A-B_P2-1_neg AB1_PAD_1_P2-1_neg AB2_PAD_1_P2-1_neg BA1_PAD_1_P2-1_neg BA2_PAD_1_P2-1_neg BA3_PAD_1_P2-1_neg BA4_PAD_1_P2-1_neg MEMD_network_2_by_4 H0_r1_c1=0.003252 H0_r1_c2=0.003252 H0_r1_c3=0.003252 H0_r1_c4=0.003252 H0_r2_c1=0.003252 H0_r2_c2=0.003252 H0_r2_c3=0.003252 H0_r2_c4=0.003252 
+
+*========================================================================
+*Drivers for the input neurons of intercon. layer A-B (Neural layer A, CPA: 2-1-neg)
+*************************************************************************
+Xselector_RW_AB1-1-P2-1_neg AB1_PAD_1_P2-1_neg RW_A-B write_signal_AB1_1_P2-1_neg NeuronA1_P2-1 selector
+Xselector_RW_AB1-2-P2-1_neg write_signal_AB1_1_P2-1_neg VcontAB1-1_out_P2-1_neg Vpulsedsignal RHZ_AB1_P2-1_neg selector
+VHZ_AB1_P2-1_neg RHZ_AB1_P2-1_neg gnd! dc=0.000000
+XandAB1_P2-1_neg VcontA-B1-1 enable_write_A-B_P2-1_neg VcontAB1-1_out_P2-1_neg and2x4tf
+*************************************************************************
+Xselector_RW_AB2-1-P2-1_neg AB2_PAD_1_P2-1_neg RW_A-B write_signal_AB2_1_P2-1_neg NeuronA2_P2-1 selector
+Xselector_RW_AB2-2-P2-1_neg write_signal_AB2_1_P2-1_neg VcontAB2-1_out_P2-1_neg Vpulsedsignal RHZ_AB2_P2-1_neg selector
+VHZ_AB2_P2-1_neg RHZ_AB2_P2-1_neg gnd! dc=0.000000
+XandAB2_P2-1_neg VcontA-B2-1 enable_write_A-B_P2-1_neg VcontAB2-1_out_P2-1_neg and2x4tf
+*************************************************************************
+
+*========================================================================
+*Drivers for the output neurons of intercon. layer A-B (Neural layer B, CPA: 2-1-neg)
+*************************************************************************
+Xselector_RW_BA1-1-P2-1_neg BA1_PAD_1_P2-1_neg RW_A-B write_signal_BA1_1_P2-1_neg NeuronB1_P2-1-neg selector
+Xselector_RW_BA1-2-P2-1_neg write_signal_BA1_1_P2-1_neg VcontBA1-1_out_P2-1_neg comparator_A-B_P2-1_neg RHZ_BA1_P2-1_neg selector
+VHZ_BA1_P2-1_neg RHZ_BA1_P2-1_neg gnd! dc=0.650000
+XandBA1_P2-1_neg VcontB-A1-1 enable_write_A-B_P2-1_neg VcontBA1-1_out_P2-1_neg and2x4tf
+RNeuronB1_P2-1_neg NeuronB1_P2-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA2-1-P2-1_neg BA2_PAD_1_P2-1_neg RW_A-B write_signal_BA2_1_P2-1_neg NeuronB2_P2-1-neg selector
+Xselector_RW_BA2-2-P2-1_neg write_signal_BA2_1_P2-1_neg VcontBA2-1_out_P2-1_neg comparator_A-B_P2-1_neg RHZ_BA2_P2-1_neg selector
+VHZ_BA2_P2-1_neg RHZ_BA2_P2-1_neg gnd! dc=0.650000
+XandBA2_P2-1_neg VcontB-A2-1 enable_write_A-B_P2-1_neg VcontBA2-1_out_P2-1_neg and2x4tf
+RNeuronB2_P2-1_neg NeuronB2_P2-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA3-1-P2-1_neg BA3_PAD_1_P2-1_neg RW_A-B write_signal_BA3_1_P2-1_neg NeuronB3_P2-1-neg selector
+Xselector_RW_BA3-2-P2-1_neg write_signal_BA3_1_P2-1_neg VcontBA3-1_out_P2-1_neg comparator_A-B_P2-1_neg RHZ_BA3_P2-1_neg selector
+VHZ_BA3_P2-1_neg RHZ_BA3_P2-1_neg gnd! dc=0.650000
+XandBA3_P2-1_neg VcontB-A3-1 enable_write_A-B_P2-1_neg VcontBA3-1_out_P2-1_neg and2x4tf
+RNeuronB3_P2-1_neg NeuronB3_P2-1-neg gnd! R='R_sense'
+*************************************************************************
+Xselector_RW_BA4-1-P2-1_neg BA4_PAD_1_P2-1_neg RW_A-B write_signal_BA4_1_P2-1_neg NeuronB4_P2-1-neg selector
+Xselector_RW_BA4-2-P2-1_neg write_signal_BA4_1_P2-1_neg VcontBA4-1_out_P2-1_neg comparator_A-B_P2-1_neg RHZ_BA4_P2-1_neg selector
+VHZ_BA4_P2-1_neg RHZ_BA4_P2-1_neg gnd! dc=0.650000
+XandBA4_P2-1_neg VcontB-A4-1 enable_write_A-B_P2-1_neg VcontBA4-1_out_P2-1_neg and2x4tf
+RNeuronB4_P2-1_neg NeuronB4_P2-1-neg gnd! R='R_sense'
+*************************************************************************
+
+*========================================================================
+*Events (write) detection circuit for CPA A-B partition array 2-1, group neg 
+*************************************************************************
+E1_A-B_P2-1_neg event_in_A-B_P2-1_neg! gnd! vol='((V(comparator_A-B_P2-1_neg-1)-0)*2e6)' min=0 max=1.2
+gi_A-B_P2-1_neg comparator_A-B_P2-1_neg comparator_A-B_P2-1_neg-1 vcr pwl(1) enable_read_pulse gnd! 0.1,100Meg 0.9,1
+Raux_B-A_P2-1_neg comparator_A-B_P2-1_neg-1 gnd! R=10k
+Rshunt_B-A_P2-1_neg comparator_A-B_P2-1_neg gnd! R='R_shunt'
+
+Xbuf_event_A-B_P2-1_neg event_in_A-B_P2-1_neg! event_in_m_A-B_P2-1_neg! bufx4tf
+Xinv_event_A-B_P2-1_neg event_in_m_A-B_P2-1_neg! event_out_A-B_P2-1_neg! invx4tf
+Xevent_det_A-B_P2-1_neg clk_event_A-B gnd! EVENT_A-B_P2-1_neg! EVENTn_A-B_P2-1_neg! sr_rw_sync event_out_A-B_P2-1_neg! dffsrx4tf
+Xbuf_enable_write_A-B_P2-1_neg EVENTn_A-B_P2-1_neg! enable_write_A-B_P2-1_neg bufx4tf
+*************************************************************************
+*========================================================================
+*Hidden layer of neurons (layer B) 
+*************************************************************************
+XNeuronB1_P1-1 NeuronB1_P1-1-pos NeuronB1_P2-1-pos NeuronB1_P1-1-neg NeuronB1_P2-1-neg NeuronB1_P1-1 gnd! neuron_2x2_in
+RNeuronB1_P1-1 NeuronB1_P1-1 gnd! R=100Meg
+XNeuronB2_P1-1 NeuronB2_P1-1-pos NeuronB2_P2-1-pos NeuronB2_P1-1-neg NeuronB2_P2-1-neg NeuronB2_P1-1 gnd! neuron_2x2_in
+RNeuronB2_P1-1 NeuronB2_P1-1 gnd! R=100Meg
+XNeuronB3_P1-1 NeuronB3_P1-1-pos NeuronB3_P2-1-pos NeuronB3_P1-1-neg NeuronB3_P2-1-neg NeuronB3_P1-1 gnd! neuron_2x2_in
+RNeuronB3_P1-1 NeuronB3_P1-1 gnd! R=100Meg
+XNeuronB4_P1-1 NeuronB4_P1-1-pos NeuronB4_P2-1-pos NeuronB4_P1-1-neg NeuronB4_P2-1-neg NeuronB4_P1-1 gnd! neuron_2x2_in
+RNeuronB4_P1-1 NeuronB4_P1-1 gnd! R=100Meg
+
+*************************************************************************
+XdecoderA-B VcontA-B1-1 VcontA-B2-1 eventsA_A-B WR_user reset_count_deco_A-B decoder_2_output
+Xcounter_A-B eventsA_A-B write_ok_pulse!_A-B reset_count_deco_A-B counter_2_pulses
+Xinv_wr_pulse_A-B write_ok_pulse!_A-B write_ok_pulse_n!_A-B invx4tf
+X_WR_OK_AB sys_clk gnd! write_ok!_A-B write_okn!_A-B resetDFFsn write_ok_pulse_n!_A-B dffsrx4tf
+XdecoderB-A VcontB-A1-1 VcontB-A2-1 VcontB-A3-1 VcontB-A4-1 EVENT!_A-B WR_user reset_count_deco_A-B decoder_4_output
+XcounterB EVENT!_A-B eventsA_A-B reset_count_deco_A-B counter_4_pulses
+
+XorAB4 resetDFFs RWn_A-B reset_count_deco_A-B or2x4tf
+
+Xevent_sync_A-B_pos event_A-B_P1-1_pos! event_A-B_P2-1_pos! EVENT_A-B_pos! and2x4tf
+Xevent_sync_A-B_neg event_A-B_P1-1_neg! event_A-B_P2-1_neg! EVENT_A-B_neg! and2x4tf
+Xclk_sync_A-B EVENT_A-B_pos! EVENT_A-B_neg! clk_event_n_A-B EVENT_S_A-B! and3x4tf
+Xevent_sync_A-B EVENT_A-B_pos! EVENT_A-B_neg! EVENT!_A-B and2x4tf
+Xclk_sync_DFF_A-B sys_clk EVENT_S_A-B! clk_event_A-B clk_event_n_A-B sr_rw_sync vdd! dffsrx4tf
+
+*Read-write circuit synchronizer
+*************************************************************************
+X_WR_control_A-B write_ok!_A-B gnd! RW_A-B RWn_A-B resetDFFsn wr_user_n dffsrx4tf
+Xlayer_sync write_ok!_A-B write_ok! sys_clk vdd! resetDFFsn sync_W_OK_1_layers
+
+
+
+*Read-write signals
+*************************************************************************
+Xinv_rw_reset resetDFFs resetDFFsn invx4tf
+Xinv_rw_user wr_user wr_user_n invx4tf
+
+*logic gates power suply
+*************************************************************************
+VVDD vdd! gnd! dc=1.2
+VVSS vss! gnd! dc=0
+
+*reser of DFFs
+*************************************************************************
+VresetDFFs resetDFFs gnd! dc=0 pulse ( 0 1.2 1u 10n 10n 1u 5.200420000000e-05 )
+
+*System clock
+*************************************************************************
+Vclk sys_clk gnd! dc=0 
+
+*Pulsed signal for memristor programming
+*************************************************************************
+Vsetting Vpulsedsignal gnd! dc=0
+Vsetting_en enable_read_pulse gnd! dc=0
+
+*Read-Write signal
+*************************************************************************
+V_WR WR_user gnd! dc=0
+
+*##########################################################################
+
+*######################  .LIB / .INC statements  ##########################
+
+*##########################################################################
+
+*#########################  .PARAM statements  ############################
+
+.PARAM Rs=10.000000
+.PARAM Rs_PAD=10.000000
+.PARAM n_extra=1
+.PARAM Rcs=1.000000
+.PARAM R_shunt=10.000000
+.PARAM HZ=100Meg
+.PARAM R_sense=1000.000000
+.PARAM R_in_TIA=1.000000
+*##########################################################################
+
+*#########################  .SIM statements  ############################
+
+.tran 1.000000000000e-06 5.200420000000e-05 0
+
+*##########################################################################
+
+*#########################  .PRINT statements  ############################
+
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-1c1-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r1-1c1-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r1-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c1-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-2c2-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r1-2c2-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r1-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c2-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-3c3-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r1-3c3-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r1-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c3-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-4c4-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r1-4c4-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r1-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c4-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-1c1-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r2-1c1-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r2-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c1-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-2c2-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r2-2c2-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r2-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c2-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-3c3-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r2-3c3-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r2-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c3-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-4c4-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_pos.Rcs_r2-4c4-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.r2-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_pos.c4-2_n)
+.PROBE TRAN i__RneuronB1_P1-1_pos__=PAR('1*ISUB(Xselector_RW_BA1-1-P1-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB2_P1-1_pos__=PAR('1*ISUB(Xselector_RW_BA2-1-P1-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB3_P1-1_pos__=PAR('1*ISUB(Xselector_RW_BA3-1-P1-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB4_P1-1_pos__=PAR('1*ISUB(Xselector_RW_BA4-1-P1-1_pos.Neuron)') 
+
+.PROBE TRAN V(enable_write_A-B_P1-1_pos)
+.PROBE TRAN V(comparator_A-B_P1-1_pos)
+.PROBE TRAN V(comparator_A-B_P1-1_pos-1)
+.PROBE TRAN V(EVENT_A-B_P1-1_pos!)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-1c1-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r1-1c1-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r1-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c1-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-2c2-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r1-2c2-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r1-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c2-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-3c3-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r1-3c3-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r1-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c3-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-4c4-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r1-4c4-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r1-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c4-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-1c1-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r2-1c1-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r2-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c1-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-2c2-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r2-2c2-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r2-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c2-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-3c3-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r2-3c3-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r2-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c3-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-4c4-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_pos.Rcs_r2-4c4-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.r2-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_pos.c4-2_n)
+.PROBE TRAN i__RneuronB1_P2-1_pos__=PAR('1*ISUB(Xselector_RW_BA1-1-P2-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB2_P2-1_pos__=PAR('1*ISUB(Xselector_RW_BA2-1-P2-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB3_P2-1_pos__=PAR('1*ISUB(Xselector_RW_BA3-1-P2-1_pos.Neuron)') 
+
+.PROBE TRAN i__RneuronB4_P2-1_pos__=PAR('1*ISUB(Xselector_RW_BA4-1-P2-1_pos.Neuron)') 
+
+.PROBE TRAN V(enable_write_A-B_P2-1_pos)
+.PROBE TRAN V(comparator_A-B_P2-1_pos)
+.PROBE TRAN V(comparator_A-B_P2-1_pos-1)
+.PROBE TRAN V(EVENT_A-B_P2-1_pos!)
+.PROBE TRAN V(EVENT_A-B_pos!)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-1c1-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r1-1c1-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r1-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c1-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-2c2-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r1-2c2-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r1-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c2-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-3c3-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r1-3c3-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r1-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c3-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-4c4-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r1-4c4-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r1-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c4-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-1c1-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r2-1c1-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r2-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c1-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-2c2-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r2-2c2-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r2-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c2-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-3c3-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r2-3c3-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r2-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c3-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-4c4-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P1-1_neg.Rcs_r2-4c4-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.r2-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P1-1_neg.c4-2_n)
+.PROBE TRAN i__RneuronB1_P1-1_neg__=PAR('1*ISUB(Xselector_RW_BA1-1-P1-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB2_P1-1_neg__=PAR('1*ISUB(Xselector_RW_BA2-1-P1-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB3_P1-1_neg__=PAR('1*ISUB(Xselector_RW_BA3-1-P1-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB4_P1-1_neg__=PAR('1*ISUB(Xselector_RW_BA4-1-P1-1_neg.Neuron)') 
+
+.PROBE TRAN V(enable_write_A-B_P1-1_neg)
+.PROBE TRAN V(comparator_A-B_P1-1_neg)
+.PROBE TRAN V(comparator_A-B_P1-1_neg-1)
+.PROBE TRAN V(EVENT_A-B_P1-1_neg!)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-1c1-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r1-1c1-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r1-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c1-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-2c2-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r1-2c2-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r1-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c2-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-3c3-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r1-3c3-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r1-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c3-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-4c4-1.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r1-4c4-1_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r1-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c4-1_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-1c1-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r2-1c1-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r2-1_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c1-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-2c2-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r2-2c2-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r2-2_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c2-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-3c3-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r2-3c3-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r2-3_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c3-2_n)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-4c4-2.h)
+.PROBE TRAN I(xmemd_network_A-B_P2-1_neg.Rcs_r2-4c4-2_1)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.r2-4_p)
+.PROBE TRAN V(xmemd_network_A-B_P2-1_neg.c4-2_n)
+.PROBE TRAN i__RneuronB1_P2-1_neg__=PAR('1*ISUB(Xselector_RW_BA1-1-P2-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB2_P2-1_neg__=PAR('1*ISUB(Xselector_RW_BA2-1-P2-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB3_P2-1_neg__=PAR('1*ISUB(Xselector_RW_BA3-1-P2-1_neg.Neuron)') 
+
+.PROBE TRAN i__RneuronB4_P2-1_neg__=PAR('1*ISUB(Xselector_RW_BA4-1-P2-1_neg.Neuron)') 
+
+.PROBE TRAN V(NeuronB1_P1-1) 
+
+.PROBE TRAN V(NeuronB2_P1-1) 
+
+.PROBE TRAN V(NeuronB3_P1-1) 
+
+.PROBE TRAN V(NeuronB4_P1-1) 
+
+.PROBE TRAN V(enable_write_A-B_P2-1_neg)
+.PROBE TRAN V(comparator_A-B_P2-1_neg)
+.PROBE TRAN V(comparator_A-B_P2-1_neg-1)
+.PROBE TRAN V(EVENT_A-B_P2-1_neg!)
+.PROBE TRAN V(EVENT_A-B_neg!)
+
+.PROBE TRAN V(write_ok!)
+.PROBE TRAN V(sys_clk)
+.PROBE TRAN V(RW)
+.PROBE TRAN V(eventsA)
+.PROBE TRAN V(Vpulsedsignal)
+.PROBE TRAN V(enable_read_pulse)
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-1c1-1.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr1-1c1-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-2c2-1.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr1-2c2-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-3c3-1.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr1-3c3-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr1-4c4-1.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr1-4c4-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-1c1-2.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr2-1c1-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-2c2-2.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr2-2c2-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-3c3-2.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr2-3c3-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_pos.xmemdr2-4c4-2.h) FIND V(xmemd_network_A-B_P1-1_pos.xmemdr2-4c4-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-1c1-1.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr1-1c1-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-2c2-1.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr1-2c2-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-3c3-1.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr1-3c3-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr1-4c4-1.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr1-4c4-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-1c1-2.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr2-1c1-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-2c2-2.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr2-2c2-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-3c3-2.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr2-3c3-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_pos.xmemdr2-4c4-2.h) FIND V(xmemd_network_A-B_P2-1_pos.xmemdr2-4c4-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-1c1-1.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr1-1c1-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-2c2-1.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr1-2c2-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-3c3-1.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr1-3c3-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr1-4c4-1.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr1-4c4-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-1c1-2.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr2-1c1-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-2c2-2.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr2-2c2-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-3c3-2.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr2-3c3-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P1-1_neg.xmemdr2-4c4-2.h) FIND V(xmemd_network_A-B_P1-1_neg.xmemdr2-4c4-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-1c1-1.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr1-1c1-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-2c2-1.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr1-2c2-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-3c3-1.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr1-3c3-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr1-4c4-1.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr1-4c4-1.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-1c1-2.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr2-1c1-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-2c2-2.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr2-2c2-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-3c3-2.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr2-3c3-2.h) AT=5.200420000000e-05
+.MEAS TRAN V(xmemd_network_A-B_P2-1_neg.xmemdr2-4c4-2.h) FIND V(xmemd_network_A-B_P2-1_neg.xmemdr2-4c4-2.h) AT=5.200420000000e-05
+
+
+*########################################################################
+
+.end
